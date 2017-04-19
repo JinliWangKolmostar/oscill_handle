@@ -34,7 +34,7 @@ int analyze_and_correct(int file_num)
                     i);
             sprintf(des_file_name,
                     "PROJECT_PATH\\data_spi\\data_capture_interval_%d.bin",
-                    i * 3 + file_num_offset - 1);
+                    i * 3 + file_num_offset);
 
 
             FILE *sou_fp = fopen(sou_file_name, "rb");

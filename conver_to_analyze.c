@@ -19,17 +19,12 @@ void GetWrongNumber(int file_num[], int file_nums)
     }
 }
 
-int GetFileNumOffset()
+void LogPerLineParser(FILE *fp_log, int *oscillo_num, int *spi_num)
 {
-    int oscillo_num = 0;
-    int spi_num = 0;
     unsigned char log_buf[LOG_BUF_SIZE];
     char *stop;
     char *pos;
-    int osc_head_len = strlen("PROJECT_PATH\\data_oscillo_a\\oscillo_valid_data_");
-    int spi_head_len = strlen("<-------> PROJECT_PATH\\data_spi\\data_capture_interval_");
-    FILE *fp_log = fopen(log_file_name, "r");
-    //FILE *fp_log1 = fopen("PROJECT_PATH\\log1.txt", "w");
+
     while(fgets((char *)log_buf, LOG_BUF_SIZE, fp_log) != NULL)
     {
         pos = strstr((char *)log_buf, "<------->");
@@ -38,11 +33,31 @@ int GetFileNumOffset()
     }
     if(pos != NULL)
     {
-        oscillo_num = strtol((char *)(log_buf + osc_head_len), &stop, 10);
-        spi_num = strtol(pos + spi_head_len, &stop, 10);
+        *oscillo_num = strtol((char *)(log_buf + osc_head_len), &stop, 10);
+        *spi_num = strtol(pos + spi_head_len, &stop, 10);
+    }
+}
+
+int GetFileNumOffset()
+{
+    int oscillo_num = 0;
+    int spi_num = 0;
+    int oscillo_pre = 0;
+    int spi_pre = 0;
+    int osc_head_len = strlen("PROJECT_PATH\\data_oscillo_a\\oscillo_valid_data_");
+    int spi_head_len = strlen("<-------> PROJECT_PATH\\data_spi\\data_capture_interval_");
+    FILE *fp_log = fopen(log_file_name, "r");
+    while(1)
+    {
+        LogPerLineParser(fp_log, &oscillo_num, &spi_num);
+        if(spi_num - (3 * oscillo_num) == spi_pre - (3 * oscillo_pre))
+        {
+            break;
+        }
+        oscillo_pre = oscillo_num;
+        spi_pre = spi_num;
     }
 
     fclose(fp_log);
-    //fclose(fp_log1);
     return spi_num - (3 * oscillo_num);
 }
