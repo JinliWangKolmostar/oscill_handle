@@ -12,6 +12,9 @@ static const char mistake_file_name[64] = "PROJECT_PATH\\mistake_log.txt";
 int analyze_and_correct(int file_num)
 {
     int i;
+    int correct_number = 0;
+    int wrong_number = 0;
+    int shift_suc = 0;
     int *wrong_file_nums = malloc(sizeof(int) * file_num);
     unsigned char des_buf[BUF_SIZE];
     unsigned char sou_buf[BUF_SIZE];
@@ -56,8 +59,13 @@ int analyze_and_correct(int file_num)
             fclose(sou_fp);
             fclose(des_fp);
 
-            if(AllChannelsMatched(&iq_count, buf_size) == 0)
+            if(AllChannelsMatched(&iq_count, buf_size) == 1)
             {
+                correct_number++;
+            } 
+            else 
+            {
+                wrong_number++;
                 memset(log_char, 0, 256);
                 sprintf(log_char, "-----------------%s data error-----------------\n\n",
                         sou_file_name + strlen("PROJECT_PATH\\data_oscillo_a\\"));
@@ -67,7 +75,7 @@ int analyze_and_correct(int file_num)
                        des_file_name + strlen("PROJECT_PATH\\data_spi\\"));
                 fwrite(log_char, 1, strlen(log_char), wrong_fp);
                 memset(log_char, 0, 256);
-                sprintf(log_char, "ËÄÂ·IQÆ¥ÅäÇé¿ö: I0:%d   I1:%d    Q0:%d    Q1:%d\n", iq_count.i0_count,
+                sprintf(log_char, "ï¿½ï¿½Â·IQÆ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: I0:%d   I1:%d    Q0:%d    Q1:%d\n", iq_count.i0_count,
                                                                             iq_count.i1_count,
                                                                             iq_count.q0_count,
                                                                             iq_count.q1_count);
@@ -84,7 +92,7 @@ int analyze_and_correct(int file_num)
                 if(iq_count.i0_count < 2 * buf_size)
                 {
                     memset(log_char, 0, 256);
-                    sprintf(log_char, "I0 ×óÒÆ1Î»\n");
+                    sprintf(log_char, "I0 ï¿½ï¿½ï¿½ï¿½1Î»\n");
                     fwrite(log_char, 1, strlen(log_char), wrong_fp);
                     tBit_shift shift_i0 = {1, {1 ,0, 0, 0}, 1};
                     shift_bit(tmp, buf_size, &shift_i0);
@@ -92,7 +100,7 @@ int analyze_and_correct(int file_num)
                 if(iq_count.i1_count < 2 * buf_size)
                 {
                     memset(log_char, 0, 256);
-                    sprintf(log_char, "I1 ×óÒÆ1Î»\n");
+                    sprintf(log_char, "I1 ï¿½ï¿½ï¿½ï¿½1Î»\n");
                     fwrite(log_char, 1, strlen(log_char), wrong_fp);
                     tBit_shift shift_i0 = {1, {0 ,1, 0, 0}, 1};
                     shift_bit(tmp, buf_size, &shift_i0);
@@ -100,7 +108,7 @@ int analyze_and_correct(int file_num)
                 if(iq_count.q0_count < 2 * buf_size)
                 {
                     memset(log_char, 0, 256);
-                    sprintf(log_char, "Q0 ×óÒÆ1Î»\n");
+                    sprintf(log_char, "Q0 ï¿½ï¿½ï¿½ï¿½1Î»\n");
                     fwrite(log_char, 1, strlen(log_char), wrong_fp);
                     tBit_shift shift_i0 = {1, {0 ,0, 1, 0}, 1};
                     shift_bit(tmp, buf_size, &shift_i0);
@@ -108,7 +116,7 @@ int analyze_and_correct(int file_num)
                 if(iq_count.q1_count < 2 * buf_size)
                 {
                     memset(log_char, 0, 256);
-                    sprintf(log_char, "Q1 ×óÒÆ1Î»\n");
+                    sprintf(log_char, "Q1 ï¿½ï¿½ï¿½ï¿½1Î»\n");
                     fwrite(log_char, 1, strlen(log_char), wrong_fp);
                     tBit_shift shift_i0 = {1, {0 ,0, 0, 1}, 1};
                     shift_bit(tmp, buf_size, &shift_i0);
@@ -117,13 +125,14 @@ int analyze_and_correct(int file_num)
                 memset(&iq_left_count, 0, sizeof(t_iq_count));
                 CompareBitDiff(sou_buf, tmp, buf_size, &iq_left_count);
                 memset(log_char, 0, 256);
-                sprintf(log_char, "ËÄÂ·IQÆ¥ÅäÇé¿ö: I0:%d   I1:%d    Q0:%d    Q1:%d\n", iq_left_count.i0_count,
+                sprintf(log_char, "ï¿½ï¿½Â·IQÆ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: I0:%d   I1:%d    Q0:%d    Q1:%d\n", iq_left_count.i0_count,
                                                                             iq_left_count.i1_count,
                                                                             iq_left_count.q0_count,
                                                                             iq_left_count.q1_count);
                 fwrite(log_char, 1, strlen(log_char), wrong_fp);
                 if(AllChannelsMatched(&iq_left_count, buf_size) == 1)
                 {
+                    shift_suc++;
                     char file_name[128];
                     strcpy(file_name, sou_file_name);
                     strcat(file_name, ".left");
@@ -131,62 +140,65 @@ int analyze_and_correct(int file_num)
                     fwrite(tmp, 1, buf_size, cor_fp);
                     fclose(cor_fp);
                 }
-
-
-                for(i = 0; i < BUF_SIZE; i++)
+                else
                 {
-                    tmp[i] = des_buf[i];
-                }
-                if(iq_count.i0_count < 2 * buf_size)
-                {
+                    for(i = 0; i < BUF_SIZE; i++)
+                    {
+                        tmp[i] = des_buf[i];
+                    }
+                    if(iq_count.i0_count < 2 * buf_size)
+                    {
+                        memset(log_char, 0, 256);
+                        sprintf(log_char, "I0 ï¿½ï¿½ï¿½ï¿½1Î»\n");
+                        fwrite(log_char, 1, strlen(log_char), wrong_fp);
+                        tBit_shift shift_i0 = {0, {1 ,0, 0, 0}, 1};
+                        shift_bit(tmp, buf_size, &shift_i0);
+                    }
+                    if(iq_count.i1_count < 2 * buf_size)
+                    {
+                        memset(log_char, 0, 256);
+                        sprintf(log_char, "I1 ï¿½ï¿½ï¿½ï¿½1Î»\n");
+                        fwrite(log_char, 1, strlen(log_char), wrong_fp);
+                        tBit_shift shift_i1 = {0, {0 ,1, 0, 0}, 1};
+                        shift_bit(tmp, buf_size, &shift_i1);
+                    }
+                    if(iq_count.q0_count < 2 * buf_size)
+                    {
+                        memset(log_char, 0, 256);
+                        sprintf(log_char, "Q0 ï¿½ï¿½ï¿½ï¿½1Î»\n");
+                        fwrite(log_char, 1, strlen(log_char), wrong_fp);
+                        tBit_shift shift_q0 = {0, {0 ,0, 1, 0}, 1};
+                        shift_bit(tmp, buf_size, &shift_q0);
+                    }
+                    if(iq_count.q1_count < 2 * buf_size)
+                    {
+                        memset(log_char, 0, 256);
+                        sprintf(log_char, "Q1 ï¿½ï¿½ï¿½ï¿½1Î»\n");
+                        fwrite(log_char, 1, strlen(log_char), wrong_fp);
+                        tBit_shift shift_q1 = {0, {0 ,0, 0, 1}, 1};
+                        shift_bit(tmp, buf_size, &shift_q1);
+                    }
+                    t_iq_count iq_right_count;
+                    memset(&iq_right_count, 0, sizeof(t_iq_count));
+                    CompareBitDiff(sou_buf, tmp, buf_size, &iq_right_count);
                     memset(log_char, 0, 256);
-                    sprintf(log_char, "I0 ÓÒÒÆ1Î»\n");
+                    sprintf(log_char, "ï¿½ï¿½Â·IQÆ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: I0:%d   I1:%d    Q0:%d    Q1:%d\n", iq_right_count.i0_count,
+                                                                                iq_right_count.i1_count,
+                                                                                iq_right_count.q0_count,
+                                                                                iq_right_count.q1_count);
                     fwrite(log_char, 1, strlen(log_char), wrong_fp);
-                    tBit_shift shift_i0 = {0, {1 ,0, 0, 0}, 1};
-                    shift_bit(tmp, buf_size, &shift_i0);
+                    if(AllChannelsMatched(&iq_right_count, buf_size) == 1)
+                    {
+                        shift_suc++;
+                        char file_name[128];
+                        strcpy(file_name, sou_file_name);
+                        strcat(file_name, ".right");
+                        FILE *cor_fp = fopen(file_name, "wb");
+                        fwrite(tmp, 1, buf_size, cor_fp);
+                        fclose(cor_fp);
+                    }
                 }
-                if(iq_count.i1_count < 2 * buf_size)
-                {
-                    memset(log_char, 0, 256);
-                    sprintf(log_char, "I1 ÓÒÒÆ1Î»\n");
-                    fwrite(log_char, 1, strlen(log_char), wrong_fp);
-                    tBit_shift shift_i1 = {0, {0 ,1, 0, 0}, 1};
-                    shift_bit(tmp, buf_size, &shift_i1);
-                }
-                if(iq_count.q0_count < 2 * buf_size)
-                {
-                    memset(log_char, 0, 256);
-                    sprintf(log_char, "Q0 ÓÒÒÆ1Î»\n");
-                    fwrite(log_char, 1, strlen(log_char), wrong_fp);
-                    tBit_shift shift_q0 = {0, {0 ,0, 1, 0}, 1};
-                    shift_bit(tmp, buf_size, &shift_q0);
-                }
-                if(iq_count.q1_count < 2 * buf_size)
-                {
-                    memset(log_char, 0, 256);
-                    sprintf(log_char, "Q1 ÓÒÒÆ1Î»\n");
-                    fwrite(log_char, 1, strlen(log_char), wrong_fp);
-                    tBit_shift shift_q1 = {0, {0 ,0, 0, 1}, 1};
-                    shift_bit(tmp, buf_size, &shift_q1);
-                }
-                t_iq_count iq_right_count;
-                memset(&iq_right_count, 0, sizeof(t_iq_count));
-                CompareBitDiff(sou_buf, tmp, buf_size, &iq_right_count);
-                memset(log_char, 0, 256);
-                sprintf(log_char, "ËÄÂ·IQÆ¥ÅäÇé¿ö: I0:%d   I1:%d    Q0:%d    Q1:%d\n", iq_right_count.i0_count,
-                                                                            iq_right_count.i1_count,
-                                                                            iq_right_count.q0_count,
-                                                                            iq_right_count.q1_count);
-                fwrite(log_char, 1, strlen(log_char), wrong_fp);
-                if(AllChannelsMatched(&iq_right_count, buf_size) == 1)
-                {
-                    char file_name[128];
-                    strcpy(file_name, sou_file_name);
-                    strcat(file_name, ".right");
-                    FILE *cor_fp = fopen(file_name, "wb");
-                    fwrite(tmp, 1, buf_size, cor_fp);
-                    fclose(cor_fp);
-                }
+                
                 memset(log_char, 0, 256);
                 sprintf(log_char, "-----------------------------complete--------------------------------\n");
                 fwrite(log_char, 1, strlen(log_char), wrong_fp);
@@ -199,6 +211,8 @@ int analyze_and_correct(int file_num)
     free(wrong_file_nums);
     fclose(wrong_fp);
     printf("--------------------correct complete---------------------");
+    printf("result:total file number:%d, match: %d, mismatch: %d\n", file_num, correct_number, wrong_number);
+    printf("shift success: %d, shift fail: %d\n", shift_suc, file_num - correct_number - shift_suc);
 
     return 0;
 }
