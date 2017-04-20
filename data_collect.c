@@ -50,7 +50,7 @@ void DataCollect(int collect_num)
 		//stop
 		viWrite(vi, (unsigned char *)strStop, strlen(strStop), &strStop_WriteLen);
 
-        sprintf(des_file_name, "PROJECT_PATH\\origin_data\\rigol_data_%d.bin", file_num++);
+        sprintf(des_file_name, "C:\\test_data\\origin_data\\rigol_data_%d.bin", file_num++);
 		FILE *fp = fopen(des_file_name, "wb");
 		int i;
 		for(i = 0; i < 2; i++) {

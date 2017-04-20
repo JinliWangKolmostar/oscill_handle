@@ -8,19 +8,21 @@
 #include "find_substring.h"
 
 #define COLLECT_NUM 337
-#define PROJECT_PATH C:\\test_data
 
 int main()
 {
-#if 0
-    //DataCollect(COLLECT_NUM);
+    //collect data from oscilloscope
+    DataCollect(COLLECT_NUM);
 
+    //transform data format as the same as spi
     DataFormatConverse_A();
     DataFormatConverse_B();
     DataFormatConverse_C();
+
+    //match data is the same
     match_data();
 
-#endif // 0
+    //analyze the diffirence file and try to correct them
     analyze_and_correct(COLLECT_NUM);
 
     return 0;

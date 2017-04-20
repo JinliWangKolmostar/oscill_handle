@@ -28,8 +28,8 @@ void DataFormatConverse_A()
 	{
 		char origin_file_name[64];
 		char valid_file_name[64];
-		sprintf(origin_file_name, "PROJECT_PATH\\origin_data\\rigol_data_%d.bin", i);
-		sprintf(valid_file_name, "PROJECT_PATH\\data_oscillo_a\\oscillo_valid_data_%d.bin", i);
+		sprintf(origin_file_name, "C:\\test_data\\origin_data\\rigol_data_%d.bin", i);
+		sprintf(valid_file_name, "C:\\test_data\\data_oscillo_a\\oscillo_valid_data_%d.bin", i);
 		FILE *fp_source = fopen(origin_file_name, "rb");
 		if(fp_source == NULL)
         {
@@ -92,8 +92,8 @@ void DataFormatConverse_B()
 	{
 		char origin_file_name[64];
 		char valid_file_name[64];
-		sprintf(origin_file_name, "PROJECT_PATH\\origin_data\\rigol_data_%d.bin", i);
-		sprintf(valid_file_name, "PROJECT_PATH\\data_oscillo_b\\oscillo_valid_data_%d.bin", i);
+		sprintf(origin_file_name, "C:\\test_data\\origin_data\\rigol_data_%d.bin", i);
+		sprintf(valid_file_name, "C:\\test_data\\data_oscillo_b\\oscillo_valid_data_%d.bin", i);
 		FILE *fp_source = fopen(origin_file_name, "rb");
 		if(fp_source == NULL)
         {
@@ -154,8 +154,8 @@ void DataFormatConverse_C()
 	{
 		char origin_file_name[64];
 		char valid_file_name[64];
-		sprintf(origin_file_name, "PROJECT_PATH\\origin_data\\rigol_data_%d.bin", i);
-		sprintf(valid_file_name, "PROJECT_PATH\\data_oscillo_c\\oscillo_valid_data_%d.bin", i);
+		sprintf(origin_file_name, "C:\\test_data\\origin_data\\rigol_data_%d.bin", i);
+		sprintf(valid_file_name, "C:\\test_data\\data_oscillo_c\\oscillo_valid_data_%d.bin", i);
 		FILE *fp_source = fopen(origin_file_name, "rb");
 		if(fp_source == NULL)
         {
