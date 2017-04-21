@@ -7,22 +7,23 @@
 #include "data_conver.h"
 #include "find_substring.h"
 
-#define COLLECT_NUM 337
-#define PROJECT_PATH C:\\test_data
+#define COLLECT_NUM 120
+
 
 int main()
 {
+    DataCollect(COLLECT_NUM);
+
 #if 0
-    //DataCollect(COLLECT_NUM);
 
     DataFormatConverse_A();
     DataFormatConverse_B();
     DataFormatConverse_C();
     match_data();
 
-#endif // 0
     analyze_and_correct(COLLECT_NUM);
 
+#endif // 0
     return 0;
 }
 

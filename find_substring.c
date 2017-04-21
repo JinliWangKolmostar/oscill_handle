@@ -6,7 +6,7 @@
 #define COMPARE_SIZE 256
 
 static unsigned char file_contet[DES_FILE_SIZE];
-static const char log_file_name[64] = "PROJECT_PATH\\log.txt";
+static const char log_file_name[64] = "C:\\00_zhenguo_work\\00_test\\log.txt";
 
 int FindSubstring(char *source_file_name)
 {
@@ -22,15 +22,14 @@ int FindSubstring(char *source_file_name)
 
     for(i = 0; ; i++)
     {
-        char des_file_name[64];
-        sprintf(des_file_name, "PROJECT_PATH\\data_spi\\data_capture_interval_%d.bin", i);
+        char des_file_name[128];
+        sprintf(des_file_name, "C:\\00_zhenguo_work\\00_test\\data_spi\\data_capture_interval_%d.bin", i);
         FILE *fp_des = fopen(des_file_name, "rb");
         if(fp_des == NULL)
         {
-            //char log_string[128];
-            //sprintf(log_string, "%s\n", source_file_name);
-           // fwrite(log_string, 1, strlen(log_string), fp_log);
-           // printf("%s not be matched\n", source_file_name);
+            char log_string[256];
+            sprintf(log_string, "mismatch : %s\n", source_file_name);
+            fwrite(log_string, 1, strlen(log_string), fp_log);
             break;
         }
         int get_size = fread(file_contet, 1, DES_FILE_SIZE, fp_des);
@@ -53,7 +52,7 @@ int FindSubstring(char *source_file_name)
             char *substring_pos = strstr((char *)file_contet, (char *)buffer);
             if(substring_pos != NULL)
             {
-                char log_string[128];
+                char log_string[512];
                 sprintf(log_string, "%s <-------> %s\n", source_file_name,
                                                          des_file_name);
                 fwrite(log_string, 1, strlen(log_string), fp_log);
@@ -75,8 +74,8 @@ void match_data()
     int match_file_num_a = 0;
 	while(1)
 	{
-		char sou_file_name[64];
-		sprintf(sou_file_name, "PROJECT_PATH\\data_oscillo_a\\oscillo_valid_data_%d.bin", match_file_num_a++);
+		char sou_file_name[128];
+		sprintf(sou_file_name, "C:\\00_zhenguo_work\\00_test\\data_oscillo_a\\oscillo_valid_data_%d.bin", match_file_num_a++);
 	 	if(FindSubstring(sou_file_name) == -1)
         {
             break;
@@ -85,8 +84,8 @@ void match_data()
     int match_file_num_b = 0;
 	while(1)
 	{
-		char sou_file_name[64];
-		sprintf(sou_file_name, "PROJECT_PATH\\data_oscillo_b\\oscillo_valid_data_%d.bin", match_file_num_b++);
+		char sou_file_name[128];
+		sprintf(sou_file_name, "C:\\00_zhenguo_work\\00_test\\data_oscillo_b\\oscillo_valid_data_%d.bin", match_file_num_b++);
 	 	if(FindSubstring(sou_file_name) == -1)
         {
             break;
@@ -95,8 +94,8 @@ void match_data()
 	int match_file_num_c = 0;
 	while(1)
 	{
-		char sou_file_name[64];
-		sprintf(sou_file_name, "PROJECT_PATH\\data_oscillo_c\\oscillo_valid_data_%d.bin", match_file_num_c++);
+		char sou_file_name[128];
+		sprintf(sou_file_name, "C:\\00_zhenguo_work\\00_test\\data_oscillo_c\\oscillo_valid_data_%d.bin", match_file_num_c++);
 	 	if(FindSubstring(sou_file_name) == -1)
         {
             break;
