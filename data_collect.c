@@ -4,6 +4,14 @@
 #include <string.h>
 #include <time.h>
 
+#define CLOCK_4M_32M
+
+#ifdef CLOCK_4M_32M
+#define START_POINT 1
+#else
+#define START_POINT 400001
+#endif
+
 static const unsigned int MEMORY_DEPTH = 120000;
 static const unsigned int SINGLE_READ_MAX_LEN = 250000;
 static const unsigned int RIGOL_HEAD_MAX_LEN = 11;
@@ -42,6 +50,7 @@ void DataCollect(int collect_num)
 	//set
 	viWrite(vi, (unsigned char *)strMode, strlen(strMode), &strMode_WriteLen);
 
+#ifndef CLOCK_4M_32M 
 	int file_num = 0;
     char des_file_name[64];
 	while(file_num < collect_num)
@@ -54,8 +63,8 @@ void DataCollect(int collect_num)
 		FILE *fp = fopen(des_file_name, "wb");
 		int i;
 		for(i = 0; i < 2; i++) {
-			sprintf(strStarPos, ":WAV:STAR %u\n", i * SINGLE_READ_MAX_LEN + 400001);
-			sprintf(strStopPos, ":WAV:STOP %u\n", (i + 1) * SINGLE_READ_MAX_LEN + 400001);
+			sprintf(strStarPos, ":WAV:STAR %u\n", i * SINGLE_READ_MAX_LEN + START_POINT);
+			sprintf(strStopPos, ":WAV:STOP %u\n", (i + 1) * SINGLE_READ_MAX_LEN + START_POINT);
 			//set star position
 			viWrite(vi, (unsigned char *)strStarPos, strlen(strStarPos), &strStarPos_WriteLen);
 			//set end position
@@ -78,6 +87,44 @@ void DataCollect(int collect_num)
                 break;
         }
 	}
+#else
+	int file_num = 0;
+    char des_file_name[64];
+	while(file_num < collect_num)
+	{
+	    // time_t start_time = time(NULL);
+		//stop
+		viWrite(vi, (unsigned char *)strStop, strlen(strStop), &strStop_WriteLen);
+
+        sprintf(des_file_name, "PROJECT_PATH\\origin_data\\rigol_data_%d.bin", file_num++);
+		FILE *fp = fopen(des_file_name, "wb");
+		int i;
+		for(i = 0; i < 17; i++) {
+			sprintf(strStarPos, ":WAV:STAR %u\n", i * SINGLE_READ_MAX_LEN + START_POINT);
+			sprintf(strStopPos, ":WAV:STOP %u\n", (i + 1) * SINGLE_READ_MAX_LEN + START_POINT);
+			//set star position
+			viWrite(vi, (unsigned char *)strStarPos, strlen(strStarPos), &strStarPos_WriteLen);
+			//set end position
+			viWrite(vi, (unsigned char *)strStopPos, strlen(strStopPos), &strStopPos_WriteLen);
+			//send get data commend
+			viWrite(vi, (unsigned char *)strGetData, strlen(strGetData), &strGetData_WriteLen);
+			//read data from ram of oscilloscope
+			viRead(vi, buffer, SINGLE_READ_MAX_LEN + RIGOL_HEAD_MAX_LEN, &readLen);
+
+			fwrite(buffer + RIGOL_HEAD_MAX_LEN, 1, readLen - RIGOL_HEAD_MAX_LEN, fp);
+		}
+		viWrite(vi, (unsigned char *)strRun, strlen(strRun), &strStop_WriteLen);
+
+		fclose(fp);
+
+        // while(1)
+        // {
+        //     time_t end_time = time(NULL);
+        //     if(end_time - start_time >= 3)
+        //         break;
+        // }
+	}
+#endif
 
 	viClose (vi);
 	viClose (defaultRM);
