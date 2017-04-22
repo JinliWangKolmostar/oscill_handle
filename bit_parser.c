@@ -7,7 +7,7 @@
 
 #define BUF_SIZE 66000
 
-static const char mistake_file_name[64] = "C:\\00_zhenguo_work\\00_test\\mistake_log.txt";
+static const char mistake_file_name[256] = "/Users/wangjingli/Documents/data/00_test/mistake_log.txt";
 
 int analyze_and_correct(int file_num)
 {
@@ -20,8 +20,8 @@ int analyze_and_correct(int file_num)
     unsigned char sou_buf[BUF_SIZE];
     t_iq_count iq_count;
 
-    char sou_file_name[128];
-    char des_file_name[128];
+    char sou_file_name[256];
+    char des_file_name[256];
     GetWrongNumber(wrong_file_nums, file_num);
     int file_num_offset = GetFileNumOffset();
 
@@ -33,10 +33,10 @@ int analyze_and_correct(int file_num)
         if(wrong_file_nums[i] == 0)
         {
             sprintf(sou_file_name,
-                    "C:\\00_zhenguo_work\\00_test\\data_oscillo_a\\oscillo_valid_data_%d.bin",
+                    "/Users/wangjingli/Documents/data/00_test/data_oscillo_a/oscillo_valid_data_%d.bin",
                     i);
             sprintf(des_file_name,
-                    "C:\\00_zhenguo_work\\00_test\\data_spi\\data_capture_interval_%d.bin",
+                    "/Users/wangjingli/Documents/data/00_test/data_spi/data_capture_interval_handle_%d.bin",
                     i * 3 + file_num_offset);
 
 
@@ -68,11 +68,11 @@ int analyze_and_correct(int file_num)
                 wrong_number++;
                 memset(log_char, 0, 256);
                 sprintf(log_char, "-----------------%s data error-----------------\n\n",
-                        sou_file_name + strlen("C:\\00_zhenguo_work\\00_test\\data_oscillo_a\\"));
+                        sou_file_name + strlen("/Users/wangjingli/Documents/data/00_test/data_oscillo_a/"));
                 fwrite(log_char, 1, strlen(log_char), wrong_fp);
                 memset(log_char, 0, 256);
                 sprintf(log_char, "-----------------%s matched-----------------\n",
-                       des_file_name + strlen("C:\\00_zhenguo_work\\00_test\\data_spi\\"));
+                       des_file_name + strlen("/Users/wangjingli/Documents/data/00_test/data_spi/"));
                 fwrite(log_char, 1, strlen(log_char), wrong_fp);
                 memset(log_char, 0, 256);
                 sprintf(log_char, "��·IQƥ������: I0:%d   I1:%d    Q0:%d    Q1:%d\n", iq_count.i0_count,
@@ -133,7 +133,7 @@ int analyze_and_correct(int file_num)
                 if(AllChannelsMatched(&iq_left_count, buf_size) == 1)
                 {
                     shift_suc++;
-                    char file_name[128];
+                    char file_name[256];
                     strcpy(file_name, sou_file_name);
                     strcat(file_name, ".left");
                     FILE *cor_fp = fopen(file_name, "wb");
@@ -190,7 +190,7 @@ int analyze_and_correct(int file_num)
                     if(AllChannelsMatched(&iq_right_count, buf_size) == 1)
                     {
                         shift_suc++;
-                        char file_name[128];
+                        char file_name[256];
                         strcpy(file_name, sou_file_name);
                         strcat(file_name, ".right");
                         FILE *cor_fp = fopen(file_name, "wb");

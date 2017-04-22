@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SPI_DATA_SIZE 65536
+// #define SPI_DATA_SIZE 65536
 #define GET_DATA_TIME 18
 
 static const unsigned char data_mask = 0x0F;
@@ -20,17 +20,17 @@ int IsFallingEdge_b(unsigned char *buffer)
 
 void DataFormatConverse_A()
 {
-    __int64 data_wrap = 0;
+    __int64_t data_wrap = 0;
 	size_t data_size;
 	unsigned char *read_buffer = (unsigned char *)malloc(GET_DATA_TIME * SINGLE_READ_MAX_LEN * sizeof(char));
 	int i;
 
 	for(i = 0; ; i++)
 	{
-		char origin_file_name[128];
-		char valid_file_name[128];
-		sprintf(origin_file_name, "C:\\00_zhenguo_work\\00_test\\origin_data\\rigol_data_%d.bin", i);
-		sprintf(valid_file_name, "C:\\00_zhenguo_work\\00_test\\data_oscillo_a\\oscillo_valid_data_%d.bin", i);
+		char origin_file_name[256];
+		char valid_file_name[256];
+		sprintf(origin_file_name, "/Users/wangjingli/Documents/data/00_test/origin_data/rigol_data_%d.bin", i);
+		sprintf(valid_file_name, "/Users/wangjingli/Documents/data/00_test/data_oscillo_a/oscillo_valid_data_%d.bin", i);
 		FILE *fp_source = fopen(origin_file_name, "rb");
 		if(fp_source == NULL)
         {
@@ -42,7 +42,7 @@ void DataFormatConverse_A()
 		{
 			int count = 0;
 			int wrap_4bit_count = 0;
-			__int64 *write_slip = (__int64 *)read_buffer;
+			__int64_t *write_slip = (__int64_t *)read_buffer;
 
 			while(((*(read_buffer + count) & 0x10) == 0) && (count < data_size))
 			{
@@ -53,7 +53,7 @@ void DataFormatConverse_A()
 			{
 				if(IsFallingEdge_a(read_buffer + count) == 1)
 				{
-					data_wrap |= (__int64)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
+					data_wrap |= (__int64_t)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
 
 					wrap_4bit_count++;
 					if(wrap_4bit_count % 16 == 0)
@@ -84,17 +84,17 @@ void DataFormatConverse_A()
 
 void DataFormatConverse_B()
 {
-    __int64 data_wrap = 0;
+    __int64_t data_wrap = 0;
 	size_t data_size;
 	unsigned char *read_buffer = (unsigned char *)malloc(GET_DATA_TIME * SINGLE_READ_MAX_LEN * sizeof(char));
 
 	int i;
 	for(i = 0; ; i++)
 	{
-		char origin_file_name[128];
-		char valid_file_name[128];
-		sprintf(origin_file_name, "C:\\00_zhenguo_work\\00_test\\origin_data\\rigol_data_%d.bin", i);
-		sprintf(valid_file_name, "C:\\00_zhenguo_work\\00_test\\data_oscillo_b\\oscillo_valid_data_%d.bin", i);
+		char origin_file_name[256];
+		char valid_file_name[256];
+		sprintf(origin_file_name, "/Users/wangjingli/Documents/data/00_test/origin_data/rigol_data_%d.bin", i);
+		sprintf(valid_file_name, "/Users/wangjingli/Documents/data/00_test/data_oscillo_b/oscillo_valid_data_%d.bin", i);
 		FILE *fp_source = fopen(origin_file_name, "rb");
 		if(fp_source == NULL)
         {
@@ -106,7 +106,7 @@ void DataFormatConverse_B()
 		{
 			int count = 0;
 			int wrap_4bit_count = 0;
-			__int64 *write_slip = (__int64 *)read_buffer;
+			__int64_t *write_slip = (__int64_t *)read_buffer;
 
 			while(((*(read_buffer + count) & 0x10) == 0) && (count < data_size))
 			{
@@ -117,7 +117,7 @@ void DataFormatConverse_B()
 			{
 				if(IsFallingEdge_b(read_buffer + count) == 1)
 				{
-					data_wrap |= (__int64)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
+					data_wrap |= (__int64_t)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
 
 					wrap_4bit_count++;
 					if(wrap_4bit_count % 16 == 0)
@@ -146,17 +146,17 @@ void DataFormatConverse_B()
 
 void DataFormatConverse_C()
 {
-    __int64 data_wrap = 0;
+    __int64_t data_wrap = 0;
 	size_t data_size;
 	unsigned char *read_buffer = (unsigned char *)malloc(GET_DATA_TIME * SINGLE_READ_MAX_LEN * sizeof(char));
 
 	int i;
 	for(i = 0; ; i++)
 	{
-		char origin_file_name[128];
-		char valid_file_name[128];
-		sprintf(origin_file_name, "C:\\00_zhenguo_work\\00_test\\origin_data\\rigol_data_%d.bin", i);
-		sprintf(valid_file_name, "C:\\00_zhenguo_work\\00_test\\data_oscillo_c\\oscillo_valid_data_%d.bin", i);
+		char origin_file_name[256];
+		char valid_file_name[256];
+		sprintf(origin_file_name, "/Users/wangjingli/Documents/data/00_test/origin_data/rigol_data_%d.bin", i);
+		sprintf(valid_file_name, "/Users/wangjingli/Documents/data/00_test/data_oscillo_c/oscillo_valid_data_%d.bin", i);
 		FILE *fp_source = fopen(origin_file_name, "rb");
 		if(fp_source == NULL)
         {
@@ -168,14 +168,14 @@ void DataFormatConverse_C()
 		{
 			int count = 0;
 			int wrap_4bit_count = 0;
-			__int64 *write_slip = (__int64 *)read_buffer;
+			__int64_t *write_slip = (__int64_t *)read_buffer;
 
 			while(((*(read_buffer + count) & 0x10) == 0) && (count < data_size))
 			{
 				count++;
 			}
 
-            data_wrap |= (__int64)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
+            data_wrap |= (__int64_t)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
             count++;
             wrap_4bit_count++;
 
@@ -183,7 +183,7 @@ void DataFormatConverse_C()
 			{
 				if(IsFallingEdge_b(read_buffer + count) == 1)
 				{
-					data_wrap |= (__int64)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
+					data_wrap |= (__int64_t)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
 
 					wrap_4bit_count++;
 					if(wrap_4bit_count % 16 == 0)

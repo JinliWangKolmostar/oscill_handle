@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <visa.h>
+//#include <visa.h>
 #include <string.h>
 #include <time.h>
 
@@ -10,12 +10,13 @@ static const unsigned int MEMORY_DEPTH = 120000;
 static const unsigned int SINGLE_READ_MAX_LEN = 250000;
 static const unsigned int RIGOL_HEAD_MAX_LEN = 11;
 
+#if 0
 void DataCollect(int collect_num)
 {
     ViSession defaultRM, vi;
 
-	char strStarPos[128];
-	char strStopPos[128];
+	char strStarPos[256];
+	char strStopPos[256];
 	char* strStop = ":STOP\n";
 	char* strRun = ":RUN\n";
 	char* strSource = "WAV:SOURce D0\n";
@@ -46,14 +47,14 @@ void DataCollect(int collect_num)
 
 #ifndef CLK_4M_32M
 	int file_num = 0;
-    char des_file_name[64];
+    char des_file_name[256];
 	while(file_num < collect_num)
 	{
 	    time_t start_time = time(NULL);
 		//stop
 		viWrite(vi, (unsigned char *)strStop, strlen(strStop), &strStop_WriteLen);
 
-        sprintf(des_file_name, "C:\\00_zhenguo_work\\00_test\\origin_data\\rigol_data_%d.bin", file_num++);
+        sprintf(des_file_name, "/Users/wangjingli/Documents/data/00_test/origin_data/rigol_data_%d.bin", file_num++);
 		FILE *fp = fopen(des_file_name, "wb");
 		int i;
 		for(i = 0; i < 2; i++) {
@@ -83,14 +84,14 @@ void DataCollect(int collect_num)
 	}
 #else
 	int file_num = 0;
-    char des_file_name[128];
+    char des_file_name[256];
 	while(file_num < collect_num)
 	{
 	    time_t start_time = time(NULL);
 		//stop
 		viWrite(vi, (unsigned char *)strStop, strlen(strStop), &strStop_WriteLen);
 
-        sprintf(des_file_name, "C:\\00_zhenguo_work\\00_test\\origin_data\\rigol_data_%d.bin", file_num++);
+        sprintf(des_file_name, "/Users/wangjingli/Documents/data/00_test/origin_data/rigol_data_%d.bin", file_num++);
 		FILE *fp = fopen(des_file_name, "wb");
 		int i;
 		for(i = 0; i < 18; i++) {
@@ -126,3 +127,4 @@ void DataCollect(int collect_num)
 	free(matches);
 	printf("-----------------collect complete---------------\n");
 }
+#endif

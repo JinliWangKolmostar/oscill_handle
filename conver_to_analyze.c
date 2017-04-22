@@ -3,33 +3,35 @@
 #include <stdlib.h>
 
 #define LOG_BUF_SIZE 256
-static const char log_file_name[64] = "C:\\00_zhenguo_work\\00_test\\log.txt";
+static const char log_file_name[256] = "/Users/wangjingli/Documents/data/00_test/log.txt";
 
-void GetWrongNumber(int file_num[], int file_nums)
+int GetWrongNumber(int file_num[], int file_nums)
 {
     memset(file_num, 0, sizeof(int) * file_nums);
-    int head_len = strlen("C:\\00_zhenguo_work\\00_test\\data_oscillo_c\\oscillo_valid_data_");
+    int head_len = strlen("/Users/wangjingli/Documents/data/00_test/data_oscillo_c/oscillo_valid_data_");
     char *stop;
     unsigned char log_buf[LOG_BUF_SIZE];
     FILE *fp_log = fopen(log_file_name, "r");
     if(fp_log == NULL)
     {
         printf("log file not exist\n");
+        return -1;
     }
     while(fgets((char *)log_buf, LOG_BUF_SIZE, fp_log) != NULL)
     {
         int tmp = strtol((char *)(log_buf + head_len), &stop, 10);
         file_num[tmp]++;
     }
+    return 0;
 }
 
 void LogPerLineParser(FILE *fp_log, int *oscillo_num, int *spi_num)
 {
     unsigned char log_buf[LOG_BUF_SIZE];
     char *stop;
-    char *pos;
-    int osc_head_len = strlen("C:\\00_zhenguo_work\\00_test\\data_oscillo_a\\oscillo_valid_data_");
-    int spi_head_len = strlen("<-------> C:\\00_zhenguo_work\\00_test\\data_spi\\data_capture_interval_");
+    char *pos = NULL;
+    int osc_head_len = strlen("/Users/wangjingli/Documents/data/00_test/data_oscillo_a/oscillo_valid_data_");
+    int spi_head_len = strlen("<-------> /Users/wangjingli/Documents/data/00_test/data_spi/data_capture_interval_handle_");
 
     while(fgets((char *)log_buf, LOG_BUF_SIZE, fp_log) != NULL)
     {
@@ -54,6 +56,7 @@ int GetFileNumOffset()
     if(fp_log == NULL)
     {
         printf("log file not exist\n");
+        return -1;
     }
     while(1)
     {

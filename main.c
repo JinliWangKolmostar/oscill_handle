@@ -12,9 +12,9 @@
 
 int main()
 {
-    DataCollect(COLLECT_NUM);
+   // DataCollect(COLLECT_NUM);
 
-#if 0
+#if 1
 
     DataFormatConverse_A();
     DataFormatConverse_B();
@@ -24,6 +24,7 @@ int main()
     analyze_and_correct(COLLECT_NUM);
 
 #endif // 0
+    //discardSpiHead();
     return 0;
 }
 
