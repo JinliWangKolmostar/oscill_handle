@@ -24,7 +24,7 @@ void DataFormatConverse_A()
 	size_t data_size;
 	unsigned char *read_buffer = (unsigned char *)malloc(GET_DATA_TIME * SINGLE_READ_MAX_LEN * sizeof(char));
 	int i;
-
+	int oscill_file_num;
 	for(i = 0; ; i++)
 	{
 		char origin_file_name[256];
@@ -34,7 +34,8 @@ void DataFormatConverse_A()
 		FILE *fp_source = fopen(origin_file_name, "rb");
 		if(fp_source == NULL)
         {
-            break;
+            oscill_file_num = i;
+			break;
         }
 		FILE *fp_destin = fopen(valid_file_name, "wb");
 
@@ -79,6 +80,7 @@ void DataFormatConverse_A()
 
 	free(read_buffer);
 	printf("-----------------data handle finished---------------\n");
+	return oscill_file_num;
 }
 
 
@@ -87,7 +89,7 @@ void DataFormatConverse_B()
     __int64_t data_wrap = 0;
 	size_t data_size;
 	unsigned char *read_buffer = (unsigned char *)malloc(GET_DATA_TIME * SINGLE_READ_MAX_LEN * sizeof(char));
-
+	int oscill_file_num;
 	int i;
 	for(i = 0; ; i++)
 	{
@@ -98,6 +100,7 @@ void DataFormatConverse_B()
 		FILE *fp_source = fopen(origin_file_name, "rb");
 		if(fp_source == NULL)
         {
+            oscill_file_num = i;
             break;
         }
 		FILE *fp_destin = fopen(valid_file_name, "wb");
@@ -142,70 +145,6 @@ void DataFormatConverse_B()
 
 	free(read_buffer);
 	printf("-----------------data handle finished---------------\n");
+	return oscill_file_num;
 }
 
-void DataFormatConverse_C()
-{
-    __int64_t data_wrap = 0;
-	size_t data_size;
-	unsigned char *read_buffer = (unsigned char *)malloc(GET_DATA_TIME * SINGLE_READ_MAX_LEN * sizeof(char));
-
-	int i;
-	for(i = 0; ; i++)
-	{
-		char origin_file_name[256];
-		char valid_file_name[256];
-		sprintf(origin_file_name, "/Users/wangjingli/Documents/data/00_test/origin_data/rigol_data_%d.bin", i);
-		sprintf(valid_file_name, "/Users/wangjingli/Documents/data/00_test/data_oscillo_c/oscillo_valid_data_%d.bin", i);
-		FILE *fp_source = fopen(origin_file_name, "rb");
-		if(fp_source == NULL)
-        {
-            break;
-        }
-		FILE *fp_destin = fopen(valid_file_name, "wb");
-
-		if((data_size = fread(read_buffer, 1, GET_DATA_TIME * SINGLE_READ_MAX_LEN, fp_source)) != 0)
-		{
-			int count = 0;
-			int wrap_4bit_count = 0;
-			__int64_t *write_slip = (__int64_t *)read_buffer;
-
-			while(((*(read_buffer + count) & 0x10) == 0) && (count < data_size))
-			{
-				count++;
-			}
-
-            data_wrap |= (__int64_t)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
-            count++;
-            wrap_4bit_count++;
-
-			while((count < data_size) && (*(read_buffer+count) & 0x10) != 0)
-			{
-				if(IsFallingEdge_b(read_buffer + count) == 1)
-				{
-					data_wrap |= (__int64_t)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
-
-					wrap_4bit_count++;
-					if(wrap_4bit_count % 16 == 0)
-					{
-						*write_slip++ = data_wrap;
-						data_wrap = 0;
-					}
-				}
-				count++;
-			}
-			if(data_wrap != 0)
-			{
-				*write_slip = data_wrap;
-				data_wrap = 0;
-			}
-			fwrite(read_buffer, 1, (wrap_4bit_count + 1) / 2, fp_destin);
-			//fwrite(read_buffer, 1, SPI_DATA_SIZE, fp_destin);
-		}
-		fclose(fp_source);
-		fclose(fp_destin);
-	}
-
-	free(read_buffer);
-	printf("-----------------data handle finished---------------\n");
-}

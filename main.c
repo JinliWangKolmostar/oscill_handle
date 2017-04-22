@@ -12,16 +12,17 @@
 
 int main()
 {
+    int oscillo_file_num;
    // DataCollect(COLLECT_NUM);
 
 #if 1
 
-    DataFormatConverse_A();
+    oscillo_file_num =  DataFormatConverse_A();
     DataFormatConverse_B();
-    DataFormatConverse_C();
+
     match_data();
 
-    analyze_and_correct(COLLECT_NUM);
+    analyze_and_correct(oscillo_file_num);
 
 #endif // 0
     //discardSpiHead();
