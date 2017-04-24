@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1493006469 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\bit_parser.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../inc/shift_bit.h"
+	"../inc/bit_parser.h"
+	"../inc/log_parser.h"
+	"../inc/config.h"
+
+1493006037 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\shift_bit.h
+
+1493006037 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\bit_parser.h
+
+1493006037 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\log_parser.h
+
+1493006037 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\config.h
+
+1493006469 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\data_collect.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"../inc/config.h"
+
+1493006500 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\data_format_transform.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../inc/config.h"
+
+1493006469 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\log_parser.c
+	"../inc/config.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
