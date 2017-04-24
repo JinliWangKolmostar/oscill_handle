@@ -11,11 +11,12 @@
 
 #define STR(a) #a
 
-#define DEBUG
-#ifndef DEBUG
-#define WORK_PATH STR(./)
+#define DEBUG_PROJECT
+#ifndef DEBUG_PROJECT
+#define WORK_PATH STR(.\\)
 #else
-#define WORK_PATH STR(C:\\test_data\\)
+#define WORK_PATH STR(\\Users\\wangjingli\\Documents\\data\\00_test\\)
+//#define WORK_PATH STR(C:\\test_data\\)
 #endif
 
 #define CLK_4M_32M

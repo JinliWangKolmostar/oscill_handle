@@ -39,7 +39,7 @@ static int SearchFirstMatch(unsigned char *oscill_data_buffer)
     {
         char des_file_name[FILE_NAME_MAX_LEN];
         sprintf(des_file_name,
-                WORK_PATH"data_spi\\data_capture_interval_%d.bin",
+                WORK_PATH"data_spi/data_capture_interval_%d.bin",
                 i);
         FILE *fp_des = fopen(des_file_name, "rb");
         if(fp_des == NULL)
@@ -66,7 +66,6 @@ static int SearchFirstMatch(unsigned char *oscill_data_buffer)
 static int FindSubstring(char *source_file_name, FILE *fp_log, int *cur_spi_file_count)
 {
     int first_offset;
-    int ret;
     unsigned char file_contet[SPI_FILE_SIZE];
     unsigned char sou_buffer[SPI_FILE_SIZE];
     FILE *fp_sou = fopen(source_file_name, "rb");
@@ -83,7 +82,7 @@ static int FindSubstring(char *source_file_name, FILE *fp_log, int *cur_spi_file
         if(first_offset > 0)
         {
             *cur_spi_file_count = first_offset;
-            ret = 1;
+            return 1;
         }
         else
             return -1;
@@ -91,7 +90,8 @@ static int FindSubstring(char *source_file_name, FILE *fp_log, int *cur_spi_file
     else
     {
         int spi_file_num;
-        /* there is a bug : if file not be matched, skip fixed interval maybe cause mismatch of all */
+        /* there is a bug : if file not be matched */
+        /* skip fixed interval maybe cause mismatch of all */
         /* but this way have a faser speed to match */
         for(spi_file_num = 0; spi_file_num <= READ_INTERVAL_TIME; spi_file_num++)
         {
@@ -111,18 +111,12 @@ static int FindSubstring(char *source_file_name, FILE *fp_log, int *cur_spi_file
             if(cmp_result == 1)
             {
                 *cur_spi_file_count += spi_file_num;
-                ret = 1;
-                break;
-            }
-            else
-            {
-                *cur_spi_file_count += READ_INTERVAL_TIME;
-                ret = 0;
+                return 1;
             }
         }
+        *cur_spi_file_count += READ_INTERVAL_TIME;
     }
-
-    return ret;
+    return 0;
 }
 
 int match_data(int oscill_file_num)

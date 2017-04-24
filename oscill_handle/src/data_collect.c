@@ -11,6 +11,7 @@
 
 void DataCollect(int collect_num)
 {
+#if 1
     ViSession defaultRM, vi;
 
 	char strStarPos[RIGOL_COMMAND_LEN];
@@ -53,7 +54,7 @@ void DataCollect(int collect_num)
 		//stop
 		viWrite(vi, (unsigned char *)strStop, strlen(strStop), &strStop_WriteLen);
 
-        sprintf(des_file_name, WORK_PATH"origin_data/rigol_data_%d.bin", file_num++);
+        sprintf(des_file_name, WORK_PATH"origin_data\\rigol_data_%d.bin", file_num++);
 		FILE *fp = fopen(des_file_name, "wb");
 		int i;
 		for(i = 0; i < GET_DATA_TIME; i++) {
@@ -87,4 +88,5 @@ void DataCollect(int collect_num)
 	free(buffer);
 	free(matches);
 	printf("-----------------collect complete---------------\n");
+#endif
 }

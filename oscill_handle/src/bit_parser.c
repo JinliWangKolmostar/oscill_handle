@@ -91,10 +91,10 @@ int analyze_and_correct(int file_num)
         if(wrong_file_nums[i] == 0)
         {
             sprintf(sou_file_name,
-                    WORK_PATH"data_oscillo_a/oscillo_valid_data_%d.bin",
+                    WORK_PATH"data_oscillo_a\\oscillo_valid_data_%d.bin",
                     i);
             sprintf(des_file_name,
-                    WORK_PATH"data_spi/data_capture_interval_handle_%d.bin",
+                    WORK_PATH"data_spi\\data_capture_interval_handle_%d.bin",
                     i * READ_INTERVAL_TIME + file_num_offset);
 
 
@@ -125,10 +125,10 @@ int analyze_and_correct(int file_num)
             {
                 wrong_number++;
                 sprintf(log_char, "-----------------%s data error-----------------\n\n",
-                        sou_file_name + strlen(WORK_PATH"data_oscillo_a/"));
+                        sou_file_name + strlen(WORK_PATH"data_oscillo_a\\"));
                 fwrite(log_char, 1, strlen(log_char), wrong_fp);
                 sprintf(log_char, "-----------------%s matched-----------------\n",
-                       des_file_name + strlen(WORK_PATH"data_spi/"));
+                       des_file_name + strlen(WORK_PATH"data_spi\\"));
                 fwrite(log_char, 1, strlen(log_char), wrong_fp);
                 sprintf(log_char, "four channels IQ: I0:%d   I1:%d    Q0:%d    Q1:%d\n", iq_count.i0_count,
                                                                             iq_count.i1_count,

@@ -18,7 +18,7 @@ int DataFormatTransfrom()
 {
     int origin_file_num = 0;
     FILE *fp_source, *fp_destin;
-    __int64 data_wrap = 0;
+    long long data_wrap = 0;
     size_t data_size;
     const unsigned char data_mask = 0x0F;
     unsigned char *read_buffer = (unsigned char *)malloc(GET_DATA_TIME * SINGLE_READ_MAX_LEN * sizeof(char));
@@ -41,7 +41,7 @@ int DataFormatTransfrom()
         {
             int count = 0;
             int wrap_4bit_count = 0;
-            __int64 *write_slip = (__int64 *)read_buffer;
+            long long *write_slip = (long long *)read_buffer;
 
             while(((*(read_buffer + count) & CS_BIT) == 0) && (count < data_size))
             {
@@ -52,7 +52,7 @@ int DataFormatTransfrom()
             {
                 if(ClkIsFallingEdge(read_buffer + count) == 1)
                 {
-                    data_wrap |= (__int64)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
+                    data_wrap |= (long long)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
 
                     wrap_4bit_count++;
                     if(wrap_4bit_count % 16 == 0)
@@ -85,7 +85,7 @@ int DataFormatTransfrom()
 // void DataFormatConverse_B(int origin_file_num)
 // {
 //     FILE *fp_source, *fp_destin;
-//     __int64 data_wrap = 0;
+//     long long data_wrap = 0;
 //     size_t data_size;
 //     unsigned char *read_buffer = (unsigned char *)malloc(GET_DATA_TIME * SINGLE_READ_MAX_LEN * sizeof(char));
 //     int oscill_file_num;
@@ -107,7 +107,7 @@ int DataFormatTransfrom()
 //         {
 //             int count = 0;
 //             int wrap_4bit_count = 0;
-//             __int64 *write_slip = (__int64 *)read_buffer;
+//             long long *write_slip = (long long *)read_buffer;
 
 //             while(((*(read_buffer + count) & 0x10) == 0) && (count < data_size))
 //             {
@@ -118,7 +118,7 @@ int DataFormatTransfrom()
 //             {
 //                 if(IsFallingEdge_b(read_buffer + count) == 1)
 //                 {
-//                     data_wrap |= (__int64)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
+//                     data_wrap |= (long long)(*(read_buffer + count) & data_mask) << (4 * wrap_4bit_count);
 
 //                     wrap_4bit_count++;
 //                     if(wrap_4bit_count % 16 == 0)
