@@ -7,25 +7,27 @@
 #include "data_conver.h"
 #include "find_substring.h"
 
-#define COLLECT_NUM 120
-
+const int origin_file_num = 100;
 
 int main()
 {
     int oscillo_file_num;
    // DataCollect(COLLECT_NUM);
 
-#if 1
+    // int origin_file_num = getFileNumInFolder();
+    DataFormatConverse_A(origin_file_num);
+    DataFormatConverse_B(origin_file_num);
 
-    oscillo_file_num =  DataFormatConverse_A();
-    DataFormatConverse_B();
+    int match_num = match_data(origin_file_num);
+    if(match_num == origin_file_num)
+    {
+        printf("match all\n");
+    }
+    else
+    {
+        analyze_and_correct(origin_file_num);
+    }
 
-    match_data();
-
-    analyze_and_correct(oscillo_file_num);
-
-#endif // 0
-    //discardSpiHead();
     return 0;
 }
 
