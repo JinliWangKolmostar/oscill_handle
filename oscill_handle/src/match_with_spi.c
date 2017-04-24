@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../inc/config.h"
 
-static const int spi_head_length = 48;
+static const int SPI_HEAD_LEN = 48;
 
 static int MemoryCompare(const void *src, const void *des, int cmp_len)
 {
@@ -53,7 +53,7 @@ static int SearchFirstMatch(unsigned char *oscill_data_buffer)
         }
         fclose(fp_des);
 
-        int cmp_result = MemoryCompare(oscill_data_buffer, file_contet + spi_head_length, get_size - spi_head_length);
+        int cmp_result = MemoryCompare(oscill_data_buffer, file_contet + SPI_HEAD_LEN, get_size - SPI_HEAD_LEN);
         if(cmp_result == 1)
         {
             return i;
@@ -90,28 +90,35 @@ static int FindSubstring(char *source_file_name, FILE *fp_log, int *cur_spi_file
     }
     else
     {
-        char des_file_name[FILE_NAME_MAX_LEN];
-        sprintf(des_file_name,
-                WORK_PATH"data_spi\\data_capture_interval_%d.bin",
-                *cur_spi_file_count + READ_INTERVAL_TIME);
-        FILE *fp_des = fopen(des_file_name, "rb");
-        if(fp_des == NULL)
+        int spi_file_num;
+        /* there is a bug : if file not be matched, skip fixed interval maybe cause mismatch of all */
+        /* but this way have a faser speed to match */
+        for(spi_file_num = 0; spi_file_num <= READ_INTERVAL_TIME; spi_file_num++)
         {
-            return 0;
-        }
-        int get_size = fread(file_contet, 1, SPI_FILE_SIZE, fp_des);
-        fclose(fp_des);
+            char des_file_name[FILE_NAME_MAX_LEN];
+            sprintf(des_file_name,
+                    WORK_PATH"data_spi\\data_capture_interval_%d.bin",
+                    *cur_spi_file_count + spi_file_num);
+            FILE *fp_des = fopen(des_file_name, "rb");
+            if(fp_des == NULL)
+            {
+                return 0;
+            }
+            int get_size = fread(file_contet, 1, SPI_FILE_SIZE, fp_des);
+            fclose(fp_des);
 
-        int cmp_result = MemoryCompare(sou_buffer, file_contet + spi_head_length, get_size - spi_head_length);
-        if(cmp_result == 1)
-        {
-            *cur_spi_file_count += READ_INTERVAL_TIME;
-            ret = 1;
-        }
-        else
-        {
-            *cur_spi_file_count += READ_INTERVAL_TIME;
-            ret = 0;
+            int cmp_result = MemoryCompare(sou_buffer, file_contet + SPI_HEAD_LEN, get_size - SPI_HEAD_LEN);
+            if(cmp_result == 1)
+            {
+                *cur_spi_file_count += spi_file_num;
+                ret = 1;
+                break;
+            }
+            else
+            {
+                *cur_spi_file_count += READ_INTERVAL_TIME;
+                ret = 0;
+            }
         }
     }
 
