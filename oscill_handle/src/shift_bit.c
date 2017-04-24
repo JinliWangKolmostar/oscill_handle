@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "../inc/config.h"
 #include "../inc/shift_bit.h"
 
 void shift_bit(unsigned char *spi_buf, int buf_size, ptBit_shift shift_bit)

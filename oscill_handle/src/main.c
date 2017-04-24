@@ -20,6 +20,7 @@ int main(void)
         ;
     if(collect_data_switch == 'y')
     {
+        printf("enter number of collection:\n");
         while(scanf("%d", &collect_file_num) != 1)
         {
             while(getchar() != '\n')

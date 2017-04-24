@@ -15,7 +15,7 @@
 #ifndef DEBUG
 #define WORK_PATH STR(./)
 #else
-#define WORK_PATH STR(/Users/wangjingli/Documents/data/00_test/)
+#define WORK_PATH STR(C:\\test_data\\)
 #endif
 
 #define CLK_4M_32M
@@ -23,10 +23,12 @@
 #define GET_DATA_TIME 2
 #define READ_INTERVAL_TIME 3
 #define SPI_FILE_SIZE 65536
+#define WAVE_START_OFFSET 400001
 #else
 #define GET_DATA_TIME 18
 #define READ_INTERVAL_TIME 6
 #define SPI_FILE_SIZE 131120
+#define WAVE_START_OFFSET 1
 #endif
 
 #define SINGLE_READ_MAX_LEN  250000

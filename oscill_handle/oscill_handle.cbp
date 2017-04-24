@@ -13,7 +13,11 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="C:/Program Files (x86)/IVI Foundation/VISA/WinNT/Include" />
 				</Compiler>
+				<Linker>
+					<Add library="C:/Program Files (x86)/IVI Foundation/VISA/WinNT/lib/msc/visa32.lib" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/oscill_handle" prefix_auto="1" extension_auto="1" />
@@ -31,7 +35,32 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="main.c">
+		<Unit filename="inc/bit_parser.h" />
+		<Unit filename="inc/config.h" />
+		<Unit filename="inc/data_collect.h" />
+		<Unit filename="inc/data_format_transform.h" />
+		<Unit filename="inc/log_parser.h" />
+		<Unit filename="inc/match_with_spi.h" />
+		<Unit filename="inc/shift_bit.h" />
+		<Unit filename="src/bit_parser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/data_collect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/data_format_transform.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/log_parser.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/match_with_spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/shift_bit.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

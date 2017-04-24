@@ -27,8 +27,8 @@ int DataFormatTransfrom()
     {
         char origin_file_name[FILE_NAME_MAX_LEN];
         char valid_file_name[FILE_NAME_MAX_LEN];
-        sprintf(origin_file_name, WORK_PATH"origin_data/rigol_data_%d.bin", i);
-        sprintf(valid_file_name, WORK_PATH"data_oscillo_a/oscillo_valid_data_%d.bin", i);
+        sprintf(origin_file_name, WORK_PATH"origin_data\\rigol_data_%d.bin", i);
+        sprintf(valid_file_name, WORK_PATH"data_oscillo_a\\oscillo_valid_data_%d.bin", i);
         fp_source = fopen(origin_file_name, "rb");
         if(fp_source == NULL)
         {

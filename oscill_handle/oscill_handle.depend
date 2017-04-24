@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1493006469 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\bit_parser.c
+1493008282 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\bit_parser.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -8,30 +8,63 @@
 	"../inc/log_parser.h"
 	"../inc/config.h"
 
-1493006037 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\shift_bit.h
+1493008282 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\shift_bit.h
 
-1493006037 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\bit_parser.h
+1493008282 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\bit_parser.h
 
-1493006037 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\log_parser.h
+1493008282 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\log_parser.h
 
-1493006037 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\config.h
+1493011792 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\config.h
 
-1493006469 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\data_collect.c
+1493012073 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\data_collect.c
 	<stdio.h>
 	<stdlib.h>
+	<visa.h>
 	<string.h>
 	<time.h>
 	"../inc/config.h"
 
-1493006500 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\data_format_transform.c
+1493009426 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\data_format_transform.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"../inc/config.h"
 
-1493006469 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\log_parser.c
+1493008282 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\log_parser.c
 	"../inc/config.h"
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
+
+1493011461 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\main.c
+	"../inc/data_collect.h"
+	"../inc/data_format_transform.h"
+	"../inc/match_with_spi.h"
+	"../inc/bit_parser.h"
+	<stdio.h>
+
+1493008282 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\data_collect.h
+
+1493008282 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\data_format_transform.h
+
+1493008282 c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\inc\match_with_spi.h
+
+1493012781 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\match_with_spi.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../inc/config.h"
+
+1493009741 source:c:\program files (x86)\jinliwang\git_project\oscill_handle\oscill_handle\src\shift_bit.c
+	<stdio.h>
+	"../inc/config.h"
+	"../inc/shift_bit.h"
+
+1390260074 c:\program files (x86)\ivi foundation\visa\winnt\include\visa.h
+	<stdarg.h>
+	"visatype.h"
+
+1390260074 c:\program files (x86)\ivi foundation\visa\winnt\include\visatype.h
+	<limits.h>
+	<sys/types.h>
 

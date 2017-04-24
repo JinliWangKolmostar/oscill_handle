@@ -3,6 +3,8 @@
 #include <string.h>
 #include "../inc/config.h"
 
+static const int spi_head_length = 48;
+
 static int MemoryCompare(const void *src, const void *des, int cmp_len)
 {
     int i, j;
@@ -37,7 +39,7 @@ static int SearchFirstMatch(unsigned char *oscill_data_buffer)
     {
         char des_file_name[FILE_NAME_MAX_LEN];
         sprintf(des_file_name,
-                WORK_PATH"data_spi/data_capture_interval_handle_%d.bin",
+                WORK_PATH"data_spi\\data_capture_interval_%d.bin",
                 i);
         FILE *fp_des = fopen(des_file_name, "rb");
         if(fp_des == NULL)
@@ -51,7 +53,7 @@ static int SearchFirstMatch(unsigned char *oscill_data_buffer)
         }
         fclose(fp_des);
 
-        int cmp_result = MemoryCompare(oscill_data_buffer, file_contet, get_size);
+        int cmp_result = MemoryCompare(oscill_data_buffer, file_contet + spi_head_length, get_size - spi_head_length);
         if(cmp_result == 1)
         {
             return i;
@@ -90,7 +92,7 @@ static int FindSubstring(char *source_file_name, FILE *fp_log, int *cur_spi_file
     {
         char des_file_name[FILE_NAME_MAX_LEN];
         sprintf(des_file_name,
-                WORK_PATH"data_spi/data_capture_interval_handle_%d.bin",
+                WORK_PATH"data_spi\\data_capture_interval_%d.bin",
                 *cur_spi_file_count + READ_INTERVAL_TIME);
         FILE *fp_des = fopen(des_file_name, "rb");
         if(fp_des == NULL)
@@ -100,7 +102,7 @@ static int FindSubstring(char *source_file_name, FILE *fp_log, int *cur_spi_file
         int get_size = fread(file_contet, 1, SPI_FILE_SIZE, fp_des);
         fclose(fp_des);
 
-        int cmp_result = MemoryCompare(sou_buffer, file_contet, get_size);
+        int cmp_result = MemoryCompare(sou_buffer, file_contet + spi_head_length, get_size - spi_head_length);
         if(cmp_result == 1)
         {
             *cur_spi_file_count += READ_INTERVAL_TIME;
@@ -126,7 +128,7 @@ int match_data(int oscill_file_num)
     FILE *fp_log = fopen(log_file_name, "w");
     for(i = 0; i < oscill_file_num; i++)
     {
-        sprintf(sou_file_name, WORK_PATH"data_oscillo_a/oscillo_valid_data_%d.bin", i);
+        sprintf(sou_file_name, WORK_PATH"data_oscillo_a\\oscillo_valid_data_%d.bin", i);
         int ret = FindSubstring(sou_file_name, fp_log, &cur_spi_file_count);
         if(ret == -1)
         {
@@ -135,7 +137,7 @@ int match_data(int oscill_file_num)
         else if(ret == 1)
         {
             char log_string[LOG_CONTENT_MAX_LEN];
-            sprintf(log_string, "oscillo_valid_data_%d.bin <-------> data_capture_interval_handle_%d.bin\n",
+            sprintf(log_string, "oscillo_valid_data_%d.bin <-------> data_capture_interval_%d.bin\n",
                                 i,
                                 cur_spi_file_count);
             fwrite(log_string, 1, strlen(log_string), fp_log);
