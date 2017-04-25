@@ -3,14 +3,13 @@
 #include <string.h>
 #include "../inc/config.h"
 
-static int ClkIsFallingEdge(unsigned char *buffer) {
-  return ((*(buffer - 1) & CLK_BIT) && !(*buffer & CLK_BIT));
+int IsFallingEdge(unsigned char *buffer, unsigned char bit_mask) {
+  return ((*(buffer - 1) & bit_mask) && !(*buffer & bit_mask));
 }
 
-// int IsFallingEdge_b(unsigned char *buffer)
-// {
-//     return ((*buffer & 0x20) && !(*(buffer + 1)& 0x20));
-// }
+int IsRaisingEdge(unsigned char *buffer, unsigned char bit_mask) {
+  return (!(*(buffer - 1) & bit_mask) && (*buffer & bit_mask));
+}
 
 int DataFormatTransfrom() {
   int origin_file_num = 0;
@@ -45,7 +44,7 @@ int DataFormatTransfrom() {
       }
 
       while ((count < data_size) && (*(read_buffer + count) & CS_BIT) != 0) {
-        if (ClkIsFallingEdge(read_buffer + count) == 1) {
+        if (IsFallingEdge(read_buffer + count, CLK_BIT) == 1) {
           data_wrap |= (long long)(*(read_buffer + count) & data_mask)
                        << (4 * wrap_4bit_count);
 

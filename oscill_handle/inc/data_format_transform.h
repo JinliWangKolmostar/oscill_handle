@@ -2,6 +2,7 @@
 #define DATA_FORMAT_TRANSFORM_H
 
 int DataFormatTransfrom();
-// void DataFormatConverse_B(int origin_file_num);
+int IsRaisingEdge(unsigned char *buffer, unsigned char bit_mask);
+int IsFallingEdge(unsigned char *buffer, unsigned char bit_mask);
 
 #endif  // DATA_FORMAT_TRANSFORM_H

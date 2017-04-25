@@ -3,6 +3,7 @@
 #include "../inc/data_collect.h"
 #include "../inc/data_format_transform.h"
 #include "../inc/match_with_spi.h"
+#include "../inc/config.h"
 
 int main(void) {
   int collect_file_num = 0;
@@ -25,8 +26,13 @@ int main(void) {
     }
   }
 
-  DataCollect(collect_file_num);
+  if(collect_data_switch == 'y')
+  {
+    DataCollect(collect_file_num);
+  }
 
+  DelayStatistic(1000);
+#if 0
   origin_file_num = DataFormatTransfrom();
 
   int match_num = MatchData(origin_file_num);
@@ -35,6 +41,6 @@ int main(void) {
   } else {
     AnalyzeAndCorrect(origin_file_num);
   }
-
+#endif
   return 0;
 }
