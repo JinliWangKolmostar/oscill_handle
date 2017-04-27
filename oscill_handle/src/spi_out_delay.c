@@ -112,5 +112,3 @@ int DelayStatistic(int file_num) {
   WriteStatLog(statis_32M, statis_4M);
   return 0;
 }
-
-s
